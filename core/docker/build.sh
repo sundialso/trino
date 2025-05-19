@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+set +x
 
 usage() {
     cat <<EOF 1>&2
@@ -126,7 +127,8 @@ for arch in "${ARCHITECTURES[@]}"; do
         --platform "linux/$arch" \
         -f Dockerfile \
         -t "${TAG_PREFIX}-$arch" \
-        --build-arg "TRINO_VERSION=${TRINO_VERSION}"
+        --build-arg "TRINO_VERSION=${TRINO_VERSION}" \
+        --output=type=docker
 done
 
 echo "🧹 Cleaning up the build context directory"
