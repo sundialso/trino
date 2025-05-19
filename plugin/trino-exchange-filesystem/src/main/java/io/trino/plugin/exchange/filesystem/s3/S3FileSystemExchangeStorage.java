@@ -760,6 +760,7 @@ public class S3FileSystemExchangeStorage
                 return immediateVoidFuture();
             }
 
+            log.info("Writing to S3 as part of Exchange?! Writing slice of length: " + slice.length());
             // Skip multipart upload if there would only be one part
             if (slice.length() < partSize && multiPartUploadIdFuture == null) {
                 PutObjectRequest putObjectRequest = PutObjectRequest.builder()

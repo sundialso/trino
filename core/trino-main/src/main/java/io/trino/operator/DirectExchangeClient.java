@@ -275,7 +275,9 @@ public class DirectExchangeClient
         }
 
         long neededBytes = buffer.getRemainingCapacityInBytes();
+        log.info("Trying the schedule request. Current buffer capacity bytes: " + neededBytes);
         if (neededBytes <= 0) {
+            log.info("No more needed bytes. Returning 0");
             return 0;
         }
 
@@ -285,6 +287,8 @@ public class DirectExchangeClient
         long projectedBytesToBeRequested = 0;
         int clientCount = 0;
 
+        log.info("Running clients: " + runningClients.size() + " Queued clients: " + queuedClients.size() + " Reserved bytes: " + reservedBytesForScheduledClients);
+        log.info("Average bytes per request: " + averageBytesPerRequest);
         Iterator<HttpPageBufferClient> clientIterator = queuedClients.iterator();
         while (clientIterator.hasNext()) {
             HttpPageBufferClient client = clientIterator.next();
@@ -302,6 +306,7 @@ public class DirectExchangeClient
             clientCount++;
         }
 
+        log.info("Scheduled clients: " + clientCount + " out of " + queuedClients.size());
         return clientCount;
     }
 
